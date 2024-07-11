@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <div>
-    {{ account.marks }}
+    {{ account.marks?.map((mark) => mark.text).join("; ") }}
   </div>
   <div>{{ account.category }}</div>
   <div>{{ account.login }}</div>
