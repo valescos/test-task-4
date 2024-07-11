@@ -30,7 +30,7 @@ function handleUpdate() {
   updateAccoundById(props.id, {
     marks: formData.marks?.split(";").map((m) => {
       return {
-        text: m,
+        text: m.trim(),
       };
     }),
     id: formData.id,

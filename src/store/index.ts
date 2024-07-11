@@ -34,38 +34,44 @@ const dummyaccs: Account[] = [
   },
 ];
 
-export const useAccountsStore = defineStore("accounts", () => {
-  const accounts = ref<Account[]>(dummyaccs);
+export const useAccountsStore = defineStore(
+  "accounts",
+  () => {
+    const accounts = ref<Account[]>(dummyaccs);
 
-  function addNewAccount() {
-    accounts.value.push({
-      id: crypto.randomUUID(),
-      category: "Локальная",
-      login: "",
-      password: "",
-    });
-  }
+    function addNewAccount() {
+      accounts.value.push({
+        id: crypto.randomUUID(),
+        category: "Локальная",
+        login: "",
+        password: "",
+      });
+    }
 
-  function deleteAccountById(id: string) {
-    const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
-    const tempArray = [
-      ...accounts.value.slice(0, targetIndex),
-      ...accounts.value.slice(targetIndex + 1),
-    ];
-    accounts.value = tempArray;
-  }
+    function deleteAccountById(id: string) {
+      const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
+      const tempArray = [
+        ...accounts.value.slice(0, targetIndex),
+        ...accounts.value.slice(targetIndex + 1),
+      ];
+      accounts.value = tempArray;
+    }
 
-  function updateAccoundById(id: string, updateData: Account) {
-    const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
-    accounts.value[targetIndex] = {
-      ...updateData,
+    function updateAccoundById(id: string, updateData: Account) {
+      const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
+      accounts.value[targetIndex] = {
+        ...updateData,
+      };
+    }
+
+    return {
+      accounts,
+      addNewAccount,
+      deleteAccountById,
+      updateAccoundById,
     };
+  },
+  {
+    persist: true,
   }
-
-  return {
-    accounts,
-    addNewAccount,
-    deleteAccountById,
-    updateAccoundById,
-  };
-});
+);
