@@ -1,4 +1,5 @@
 export type Account = {
+  id: string;
   marks?: Mark[];
   category: "Локальная" | "LDAP";
   login: string;

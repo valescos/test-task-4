@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import type { Account } from "../types";
 import { ref } from "vue";
+import { useAccountsStore } from "../store";
 import OpenedEye from "../icons/OpenedEye.vue";
 import ClosedEye from "../icons/ClosedEye.vue";
 import TrashCan from "../icons/TrashCan.vue";
+
+const { deleteAccountById } = useAccountsStore();
 
 defineProps<{
   account: Account;
@@ -17,7 +20,7 @@ const visible = ref(false);
     type="text"
     :value="account.marks?.map((mark) => mark.text).join('; ')"
   />
-  <select name="" id="" placeholder="Выберете категорию:">
+  <select>
     <option value="Локальная" :selected="account.category === 'Локальная'">
       Локальная
     </option>
@@ -43,7 +46,10 @@ const visible = ref(false);
       <ClosedEye v-else />
     </button>
   </div>
-  <button class="px-2 hover:[&>*>]:stroke-gray-300 [&>*>]:transition-all">
+  <button
+    @click="deleteAccountById(account.id)"
+    class="px-2 hover:[&>*>]:stroke-gray-300 [&>*>]:transition-all"
+  >
     <TrashCan />
   </button>
 </template>

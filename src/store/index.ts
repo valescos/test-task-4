@@ -4,23 +4,29 @@ import type { Account } from "../types";
 
 const dummyaccs: Account[] = [
   {
+    id: "aaaa-1111-bbbb",
     category: "LDAP",
     login: "AAA",
     password: null,
   },
   {
+    id: "aaaa-2345-bbbb",
+
     marks: [{ text: "A" }, { text: "B" }],
     category: "LDAP",
     login: "BBB",
     password: null,
   },
   {
+    id: "aaaa-1233-bbbb",
+
     marks: [{ text: "C" }, { text: "D" }],
     category: "Локальная",
     login: "CCC",
     password: "safepassword!",
   },
   {
+    id: "aaaa-1551-cdbb",
     marks: [{ text: "E" }, { text: "FFF" }],
     category: "Локальная",
     login: "FFF",
@@ -31,5 +37,23 @@ const dummyaccs: Account[] = [
 export const useAccountsStore = defineStore("accounts", () => {
   const accounts = ref<Account[]>(dummyaccs);
 
-  return { accounts };
+  function addNewAccount() {
+    accounts.value.push({
+      id: crypto.randomUUID(),
+      category: "Локальная",
+      login: "",
+      password: "",
+    });
+  }
+
+  function deleteAccountById(id: string) {
+    const targetId = accounts.value.findIndex((acc) => acc.id === id);
+    const tempArray = [
+      ...accounts.value.slice(0, targetId),
+      ...accounts.value.slice(targetId + 1),
+    ];
+    accounts.value = tempArray;
+  }
+
+  return { accounts, addNewAccount, deleteAccountById };
 });
