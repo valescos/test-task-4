@@ -47,13 +47,25 @@ export const useAccountsStore = defineStore("accounts", () => {
   }
 
   function deleteAccountById(id: string) {
-    const targetId = accounts.value.findIndex((acc) => acc.id === id);
+    const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
     const tempArray = [
-      ...accounts.value.slice(0, targetId),
-      ...accounts.value.slice(targetId + 1),
+      ...accounts.value.slice(0, targetIndex),
+      ...accounts.value.slice(targetIndex + 1),
     ];
     accounts.value = tempArray;
   }
 
-  return { accounts, addNewAccount, deleteAccountById };
+  function updateAccoundById(id: string, updateData: Account) {
+    const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
+    accounts.value[targetIndex] = {
+      ...updateData,
+    };
+  }
+
+  return {
+    accounts,
+    addNewAccount,
+    deleteAccountById,
+    updateAccoundById,
+  };
 });

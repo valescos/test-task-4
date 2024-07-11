@@ -22,6 +22,14 @@ const classes = cn(
     <p>Логин</p>
     <p>Пароль</p>
     <p />
-    <AccountItem v-for="(acc, index) in accounts" :key="index" :account="acc" />
+    <AccountItem
+      v-for="(acc, index) in accounts"
+      :key="index"
+      :marks="acc.marks"
+      :id="acc.id"
+      :category="acc.category"
+      :password="acc.password"
+      :login="acc.login"
+    />
   </div>
 </template>
