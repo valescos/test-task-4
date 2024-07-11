@@ -6,19 +6,25 @@ const dummyaccs: Account[] = [
   {
     category: "LDAP",
     login: "AAA",
-    password: "strongpassword0_0",
+    password: null,
   },
   {
     marks: [{ text: "A" }, { text: "B" }],
     category: "LDAP",
     login: "BBB",
-    password: "weakpassword:)",
+    password: null,
   },
   {
     marks: [{ text: "C" }, { text: "D" }],
     category: "Локальная",
     login: "CCC",
     password: "safepassword!",
+  },
+  {
+    marks: [{ text: "E" }, { text: "FFF" }],
+    category: "Локальная",
+    login: "FFF",
+    password: "safepassword!!!",
   },
 ];
 
