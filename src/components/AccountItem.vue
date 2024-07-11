@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import type { Account } from "../types";
+import { ref } from "vue";
 
 defineProps<{
   account: Account;
 }>();
+
+const visible = ref(false);
 </script>
 
 <template>
@@ -19,7 +22,15 @@ defineProps<{
   <div :class="account.category === 'LDAP' && 'col-span-2'">
     {{ account.login }}
   </div>
-  <div v-if="account.category === 'Локальная'">{{ account.password }}</div>
+  <div v-if="account.category === 'Локальная'" class="relative">
+    <input :type="visible ? 'text' : 'password'" :value="account.password" />
+    <button
+      @click="visible = !visible"
+      class="absolute bg-gray-200 right-0 px-1"
+    >
+      {{ visible ? "Не видеть!" : "Видеть!" }}
+    </button>
+  </div>
   <button>Уд</button>
 </template>
 
