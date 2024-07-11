@@ -16,8 +16,10 @@ defineProps<{
     </option>
     <option value="LDAP" :selected="account.category === 'LDAP'">LDAP</option>
   </select>
-  <div>{{ account.login }}</div>
-  <div>{{ account.password }}</div>
+  <div :class="account.category === 'LDAP' && 'col-span-2'">
+    {{ account.login }}
+  </div>
+  <div v-if="account.category === 'Локальная'">{{ account.password }}</div>
   <button>Уд</button>
 </template>
 
