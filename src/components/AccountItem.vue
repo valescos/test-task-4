@@ -2,14 +2,16 @@
 import type { Account } from "../types";
 
 defineProps<{
-  key: number;
   account: Account;
 }>();
 </script>
 
 <template>
   <div>
-    {{ account.marks }} - {{ account.category }} - {{ account.login }} -
-    {{ account.password }}
+    {{ account.marks }}
   </div>
+  <div>{{ account.category }}</div>
+  <div>{{ account.login }}</div>
+  <div>{{ account.password }}</div>
+  <button>Уд</button>
 </template>
