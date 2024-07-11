@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { Account } from "../types";
 import { ref } from "vue";
+import OpenedEye from "../icons/OpenedEye.vue";
+import ClosedEye from "../icons/ClosedEye.vue";
+import TrashCan from "../icons/TrashCan.vue";
 
 defineProps<{
   account: Account;
@@ -26,12 +29,15 @@ const visible = ref(false);
     <input :type="visible ? 'text' : 'password'" :value="account.password" />
     <button
       @click="visible = !visible"
-      class="absolute bg-gray-200 right-0 px-1"
+      class="absolute right-0 px-1 hover:[&>*>]:stroke-gray-300 [&>*>]:transition-all"
     >
-      {{ visible ? "Не видеть!" : "Видеть!" }}
+      <OpenedEye v-if="!visible" />
+      <ClosedEye v-else />
     </button>
   </div>
-  <button>Уд</button>
+  <button class="px-2 hover:[&>*>]:stroke-gray-300 [&>*>]:transition-all">
+    <TrashCan />
+  </button>
 </template>
 
 <!-- {{ account.category }} -->
