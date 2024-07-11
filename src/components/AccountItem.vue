@@ -5,10 +5,14 @@ import { useAccountsStore } from "../store";
 import OpenedEye from "../icons/OpenedEye.vue";
 import ClosedEye from "../icons/ClosedEye.vue";
 import TrashCan from "../icons/TrashCan.vue";
+import * as z from "zod";
+import { AccountSchemaType } from "../types";
+import { accountSchema } from "../types";
 
 const { deleteAccountById, updateAccoundById } = useAccountsStore();
 
 const visible = ref(false);
+const errors = ref<z.ZodFormattedError<AccountSchemaType> | null>(null);
 
 const props = defineProps<{
   marks?: Mark[];
@@ -27,6 +31,9 @@ const formData = {
 };
 
 function handleUpdate() {
+  const vaildSchema = accountSchema.safeParse(formData);
+  console.log(vaildSchema.success);
+
   updateAccoundById(props.id, {
     marks: formData.marks?.split(";").map((m) => {
       return {
