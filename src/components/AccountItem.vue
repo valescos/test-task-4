@@ -91,6 +91,7 @@ function handleUpdate() {
       v-model="formData.password"
     />
     <button
+      v-if="!errors?.password"
       @click="visible = !visible"
       class="absolute right-0 px-1 hover:[&>*>]:stroke-gray-300 [&>*>]:transition-all"
     >
