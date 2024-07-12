@@ -1,9 +1,9 @@
 import * as z from "zod";
 
 export const accountSchema = z.object({
-  marks: z.string().trim().max(50).optional(),
-  login: z.string().trim().min(1).max(100),
-  password: z.string().trim().min(1).max(100),
+  marks: z.string().trim().max(50, ">50!").optional(),
+  login: z.string().trim().min(1, "Нужно!").max(100, ">100!"),
+  password: z.string().trim().min(1, "Нужно!").max(100, ">100!"),
 });
 
 export type AccountSchemaType = z.infer<typeof accountSchema>;

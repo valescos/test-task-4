@@ -58,7 +58,7 @@ function handleUpdate() {
 </script>
 
 <template>
-  <div>
+  <div class="relative">
     <input
       type="text"
       v-model="formData.marks"
@@ -66,6 +66,10 @@ function handleUpdate() {
       class="w-full rounded-md"
       :class="errors?.marks && 'border-4 border-red-500 animate-pulse'"
     />
+    <span
+      class="absolute text-white px-1 font-bold rounded-md right-0 mx-2 text-sm bg-red-500 z-30 top-[50%] -translate-y-[50%]"
+      >{{ errors?.marks?._errors[0] }}</span
+    >
   </div>
   <select v-model="formData.category" @change="handleUpdate">
     <option value="Локальная" :selected="formData.category === 'Локальная'">
@@ -73,7 +77,7 @@ function handleUpdate() {
     </option>
     <option value="LDAP" :selected="formData.category === 'LDAP'">LDAP</option>
   </select>
-  <div :class="formData.category === 'LDAP' && 'col-span-2'">
+  <div :class="formData.category === 'LDAP' && 'col-span-2'" class="relative">
     <input
       @change="handleUpdate"
       type="text"
@@ -81,12 +85,16 @@ function handleUpdate() {
       class="w-full rounded-md"
       :class="errors?.login && 'border-4 border-red-500 animate-pulse'"
     />
+    <span
+      class="absolute text-white px-1 font-bold rounded-md right-0 mx-2 text-sm bg-red-500 z-30 top-[50%] -translate-y-[50%]"
+      >{{ errors?.login?._errors[0] }}</span
+    >
   </div>
   <div v-if="formData.category === 'Локальная'" class="relative">
     <input
       @change="handleUpdate"
       :type="visible ? 'text' : 'password'"
-      class="w-full pr-6 rounded-md"
+      class="w-full pr-6 rounded-md relative"
       :class="errors?.password && 'border-4 border-red-500 animate-pulse'"
       v-model="formData.password"
     />
@@ -98,6 +106,10 @@ function handleUpdate() {
       <OpenedEye v-if="!visible" />
       <ClosedEye v-else />
     </button>
+    <span
+      class="absolute text-white px-1 font-bold rounded-md right-0 mx-2 text-sm bg-red-500 z-30 top-[50%] -translate-y-[50%]"
+      >{{ errors?.password?._errors[0] }}</span
+    >
   </div>
   <button
     @click="deleteAccountById(formData.id)"
