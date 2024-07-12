@@ -2,42 +2,10 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import type { Account } from "../types";
 
-const dummyaccs: Account[] = [
-  {
-    id: "aaaa-1111-bbbb",
-    category: "LDAP",
-    login: "AAA",
-    password: null,
-  },
-  {
-    id: "aaaa-2345-bbbb",
-
-    marks: [{ text: "A" }, { text: "B" }],
-    category: "LDAP",
-    login: "BBB",
-    password: null,
-  },
-  {
-    id: "aaaa-1233-bbbb",
-
-    marks: [{ text: "C" }, { text: "D" }],
-    category: "Локальная",
-    login: "CCC",
-    password: "safepassword!",
-  },
-  {
-    id: "aaaa-1551-cdbb",
-    marks: [{ text: "E" }, { text: "FFF" }],
-    category: "Локальная",
-    login: "FFF",
-    password: "safepassword!!!",
-  },
-];
-
 export const useAccountsStore = defineStore(
   "accounts",
   () => {
-    const accounts = ref<Account[]>(dummyaccs);
+    const accounts = ref<Account[]>([]);
 
     const rerenderKeys = computed(() => {
       const tempArr = [];
@@ -46,11 +14,6 @@ export const useAccountsStore = defineStore(
       }
       return tempArr;
     });
-
-    function getAccoundById(id: string) {
-      const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
-      return accounts.value[targetIndex];
-    }
 
     function addNewAccount() {
       accounts.value.push({
@@ -88,7 +51,6 @@ export const useAccountsStore = defineStore(
       addNewAccount,
       deleteAccountById,
       updateAccoundById,
-      getAccoundById,
     };
   },
   {

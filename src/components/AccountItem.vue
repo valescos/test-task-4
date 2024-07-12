@@ -1,41 +1,27 @@
 <script lang="ts" setup>
-import type { Mark, Category, Password } from "../types";
-import { ref } from "vue";
-import { useAccountsStore } from "../store";
 import OpenedEye from "../icons/OpenedEye.vue";
 import ClosedEye from "../icons/ClosedEye.vue";
 import TrashCan from "../icons/TrashCan.vue";
-import * as z from "zod";
+
+import type { Mark, Category, Password } from "../types";
 import { AccountSchemaType } from "../types";
 import { accountSchema } from "../types";
-import type { PropType } from "vue";
+import * as z from "zod";
+
+import { ref } from "vue";
+import { useAccountsStore } from "../store";
 
 const { deleteAccountById, updateAccoundById } = useAccountsStore();
 const visible = ref(false);
 const errors = ref<z.ZodFormattedError<AccountSchemaType> | null>(null);
 
-const props = defineProps({
-  marks: {
-    type: Object as PropType<Mark[]>,
-    required: false,
-  },
-  id: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String as PropType<Category>,
-    required: true,
-  },
-  password: {
-    type: String as PropType<Password>,
-    required: true,
-  },
-  login: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  marks?: Mark[];
+  id: string;
+  category: Category;
+  password: Password;
+  login: string;
+}>();
 
 const formData = {
   marks: props.marks?.map((m) => m.text).join("; "),
