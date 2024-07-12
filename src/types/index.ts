@@ -3,7 +3,7 @@ import * as z from "zod";
 export const accountSchema = z.object({
   marks: z.string().trim().max(50, ">50!").optional(),
   login: z.string().trim().min(1, "Нужно!").max(100, ">100!"),
-  password: z.string().trim().min(1, "Нужно!").max(100, ">100!"),
+  password: z.string().trim().min(1, "Нужно!").max(100, ">100!").nullable(),
 });
 
 export type AccountSchemaType = z.infer<typeof accountSchema>;

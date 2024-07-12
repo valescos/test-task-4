@@ -2,12 +2,9 @@
 import OpenedEye from "../icons/OpenedEye.vue";
 import ClosedEye from "../icons/ClosedEye.vue";
 import TrashCan from "../icons/TrashCan.vue";
-
 import type { Mark, Category, Password } from "../types";
-
 import { ref } from "vue";
 import { useAccountsStore } from "../store";
-
 import * as z from "zod";
 import { accountSchema } from "../types";
 import { AccountSchemaType } from "../types";
@@ -54,7 +51,7 @@ function handleUpdate() {
       }),
     id: formData.value.id,
     category: formData.value.category,
-    login: formData.value.login,
+    login: formData.value.login.trim(),
     password: formData.value.password,
   });
 }
@@ -98,11 +95,14 @@ function handleUpdate() {
       @change="handleUpdate"
       :type="visible ? 'text' : 'password'"
       class="w-full pr-6 rounded-md relative"
-      :class="errors?.password && 'border-4 border-red-500 animate-pulse'"
+      :class="
+        (errors?.password || formData.password === null) &&
+        'border-4 border-red-500 animate-pulse'
+      "
       v-model="formData.password"
     />
     <button
-      v-if="!errors?.password"
+      v-if="!errors?.password && !(formData.password === null)"
       @click="visible = !visible"
       class="absolute right-0 px-1 hover:[&>*>]:stroke-gray-300 [&>*>]:transition-all"
     >
@@ -112,6 +112,11 @@ function handleUpdate() {
     <span
       class="absolute text-white px-1 font-bold rounded-md right-0 mx-2 text-sm bg-red-500 z-30 top-[50%] -translate-y-[50%]"
       >{{ errors?.password?._errors[0] }}</span
+    >
+    <span
+      v-if="formData.password === null"
+      class="absolute text-white px-1 font-bold rounded-md right-0 mx-2 text-sm bg-red-500 z-30 top-[50%] -translate-y-[50%]"
+      >Введите пароль!</span
     >
   </div>
   <button
