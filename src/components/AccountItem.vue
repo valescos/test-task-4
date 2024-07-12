@@ -90,10 +90,14 @@ function handleUpdate() {
       >{{ errors?.login?._errors[0] }}</span
     >
   </div>
-  <div v-if="formData.category === 'Локальная'" class="relative">
+  <div
+    v-if="formData.category === 'Локальная'"
+    class="relative"
+    :class="!visible && '[&>input]:font-pass'"
+  >
     <input
       @change="handleUpdate"
-      :type="visible ? 'text' : 'password'"
+      type="text"
       class="w-full pr-6 rounded-md relative"
       :class="
         (errors?.password || formData.password === null) &&
@@ -126,3 +130,5 @@ function handleUpdate() {
     <TrashCan />
   </button>
 </template>
+
+<!-- :type="visible ? 'text' : 'password'" -->
