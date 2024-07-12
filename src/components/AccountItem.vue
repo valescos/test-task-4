@@ -44,11 +44,14 @@ function handleUpdate() {
   if (formData.value.category === "LDAP") formData.value.password = null;
 
   updateAccoundById(props.id, {
-    marks: formData.value.marks?.split(";").map((m) => {
-      return {
-        text: m.trim(),
-      };
-    }),
+    marks: formData.value.marks
+      ?.split(";")
+      .filter((i) => i)
+      .map((m) => {
+        return {
+          text: m.trim(),
+        };
+      }),
     id: formData.value.id,
     category: formData.value.category,
     login: formData.value.login,
