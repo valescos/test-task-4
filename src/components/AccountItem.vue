@@ -4,12 +4,13 @@ import ClosedEye from "../icons/ClosedEye.vue";
 import TrashCan from "../icons/TrashCan.vue";
 
 import type { Mark, Category, Password } from "../types";
-import { AccountSchemaType } from "../types";
-import { accountSchema } from "../types";
-import * as z from "zod";
 
 import { ref } from "vue";
 import { useAccountsStore } from "../store";
+
+import * as z from "zod";
+import { accountSchema } from "../types";
+import { AccountSchemaType } from "../types";
 
 const { deleteAccountById, updateAccoundById } = useAccountsStore();
 const visible = ref(false);
@@ -23,52 +24,70 @@ const props = defineProps<{
   login: string;
 }>();
 
-const formData = {
+const formData = ref({
   marks: props.marks?.map((m) => m.text).join("; "),
   id: props.id,
   category: props.category,
   login: props.login,
   password: props.password,
-};
+});
+
+const validSchema = accountSchema.safeParse(formData.value);
+
+if (!validSchema.success) {
+  errors.value = validSchema.error.format();
+} else {
+  errors.value = null;
+}
 
 function handleUpdate() {
-  const vaildSchema = accountSchema.safeParse(formData);
-  console.log(vaildSchema.success);
+  if (formData.value.category === "LDAP") formData.value.password = null;
 
   updateAccoundById(props.id, {
-    marks: formData.marks?.split(";").map((m) => {
+    marks: formData.value.marks?.split(";").map((m) => {
       return {
         text: m.trim(),
       };
     }),
-    id: formData.id,
-    category: formData.category,
-    login: formData.login,
-    password: formData.password,
+    id: formData.value.id,
+    category: formData.value.category,
+    login: formData.value.login,
+    password: formData.value.password,
   });
 }
 </script>
 
 <template>
-  <input type="text" v-model="formData.marks" @change="handleUpdate" />
+  <div>
+    <input
+      type="text"
+      v-model="formData.marks"
+      @change="handleUpdate"
+      class="w-full rounded-md"
+      :class="errors?.marks && 'border-4 border-red-500 animate-pulse'"
+    />
+  </div>
   <select v-model="formData.category" @change="handleUpdate">
     <option value="Локальная" :selected="formData.category === 'Локальная'">
       Локальная
     </option>
     <option value="LDAP" :selected="formData.category === 'LDAP'">LDAP</option>
   </select>
-  <input
-    @change="handleUpdate"
-    type="text"
-    v-model="formData.login"
-    :class="formData.category === 'LDAP' && 'col-span-2'"
-  />
-
+  <div :class="formData.category === 'LDAP' && 'col-span-2'">
+    <input
+      @change="handleUpdate"
+      type="text"
+      v-model="formData.login"
+      class="w-full rounded-md"
+      :class="errors?.login && 'border-4 border-red-500 animate-pulse'"
+    />
+  </div>
   <div v-if="formData.category === 'Локальная'" class="relative">
     <input
       @change="handleUpdate"
       :type="visible ? 'text' : 'password'"
-      class="w-full pr-6"
+      class="w-full pr-6 rounded-md"
+      :class="errors?.password && 'border-4 border-red-500 animate-pulse'"
       v-model="formData.password"
     />
     <button
