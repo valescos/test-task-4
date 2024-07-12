@@ -116,7 +116,7 @@ function handleUpdate() {
     <span
       v-if="formData.password === null"
       class="absolute text-white px-1 font-bold rounded-md right-0 mx-2 text-sm bg-red-500 z-30 top-[50%] -translate-y-[50%]"
-      >Введите пароль!</span
+      >Нужно!</span
     >
   </div>
   <button
