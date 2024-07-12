@@ -4,7 +4,7 @@ import { useAccountsStore } from "../store";
 import { storeToRefs } from "pinia";
 import { cn } from "../utils";
 const accountStore = useAccountsStore();
-const { accounts } = storeToRefs(accountStore);
+const { accounts, rerenderKeys } = storeToRefs(accountStore);
 
 const classes = cn(
   "grid grid-cols-[1fr_12rem_1fr_1fr_2rem] p-2 gap-1",
@@ -24,7 +24,7 @@ const classes = cn(
     <p />
     <AccountItem
       v-for="(acc, index) in accounts"
-      :key="index"
+      :key="rerenderKeys[index]"
       :marks="acc.marks"
       :id="acc.id"
       :category="acc.category"

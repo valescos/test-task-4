@@ -8,19 +8,34 @@ import TrashCan from "../icons/TrashCan.vue";
 import * as z from "zod";
 import { AccountSchemaType } from "../types";
 import { accountSchema } from "../types";
+import type { PropType } from "vue";
 
 const { deleteAccountById, updateAccoundById } = useAccountsStore();
-
 const visible = ref(false);
 const errors = ref<z.ZodFormattedError<AccountSchemaType> | null>(null);
 
-const props = defineProps<{
-  marks?: Mark[];
-  id: string;
-  category: Category;
-  password: Password;
-  login: string;
-}>();
+const props = defineProps({
+  marks: {
+    type: Object as PropType<Mark[]>,
+    required: false,
+  },
+  id: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String as PropType<Category>,
+    required: true,
+  },
+  password: {
+    type: String as PropType<Password>,
+    required: true,
+  },
+  login: {
+    type: String,
+    required: true,
+  },
+});
 
 const formData = {
   marks: props.marks?.map((m) => m.text).join("; "),

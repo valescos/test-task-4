@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import type { Account } from "../types";
 
 const dummyaccs: Account[] = [
@@ -39,6 +39,19 @@ export const useAccountsStore = defineStore(
   () => {
     const accounts = ref<Account[]>(dummyaccs);
 
+    const rerenderKeys = computed(() => {
+      const tempArr = [];
+      for (let i = 0; i < accounts.value.length; i++) {
+        tempArr.push(crypto.randomUUID());
+      }
+      return tempArr;
+    });
+
+    function getAccoundById(id: string) {
+      const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
+      return accounts.value[targetIndex];
+    }
+
     function addNewAccount() {
       accounts.value.push({
         id: crypto.randomUUID(),
@@ -59,16 +72,23 @@ export const useAccountsStore = defineStore(
 
     function updateAccoundById(id: string, updateData: Account) {
       const targetIndex = accounts.value.findIndex((acc) => acc.id === id);
-      accounts.value[targetIndex] = {
-        ...updateData,
-      };
+      const tempArray = [
+        ...accounts.value.slice(0, targetIndex),
+        {
+          ...updateData,
+        },
+        ...accounts.value.slice(targetIndex + 1),
+      ];
+      accounts.value = tempArray;
     }
 
     return {
       accounts,
+      rerenderKeys,
       addNewAccount,
       deleteAccountById,
       updateAccoundById,
+      getAccoundById,
     };
   },
   {
