@@ -130,5 +130,3 @@ function handleUpdate() {
     <TrashCan />
   </button>
 </template>
-
-<!-- :type="visible ? 'text' : 'password'" -->

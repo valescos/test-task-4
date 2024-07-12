@@ -6,5 +6,5 @@
   font-family: "password";
   font-style: normal;
   font-weight: 400;
-  src: url("../public/password.ttf");
+  src: url("/password.ttf");
 }
